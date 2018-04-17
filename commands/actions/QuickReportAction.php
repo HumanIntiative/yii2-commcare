@@ -20,7 +20,9 @@ class QuickReportAction extends Action
 			// Create Model
 			$model = $this->createModel($form);
 			// Add to Array
-			array_push($models, $model);
+			if ($model) {
+				array_push($models, $model->attributes);
+			}
 
 			/*if (is_array($form->attachments)) {
 				foreach ($form->attachments as $name => $attachment) {
@@ -33,7 +35,7 @@ class QuickReportAction extends Action
 		// Foreach models
 		// 	Save model 	
 
-		var_dump($model);
+		var_dump($models);
 	}
 
 	protected function createModel(FormQuickReport $form)
@@ -45,12 +47,12 @@ class QuickReportAction extends Action
 		if (!$model) {
 			$model = new QuickReport;
 			$model->commcare_app_id = $form->id;
+			$model->report_name = $form->judul;
+			$model->report_date = $form->tgl_pelaporan;
+			$model->address = $form->alamat;
+			$model->content = $form->aktifitas;
+			return $model;
 		}
-		$model->report_name = $form->judul;
-		$model->report_date = $form->tgl_pelaporan;
-		$model->address = $form->alamat;
-		$model->content = $form->aktifitas;
-
-		return $model;
+		return null;
 	}
 }
