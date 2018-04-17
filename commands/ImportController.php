@@ -2,11 +2,11 @@
 
 namespace app\commands;
 
+use app\components\AttachmentDownloader;
 use app\components\CommcareConnection;
 use app\components\FormCollection;
 use app\forms\FormType;
 use yii\console\Controller;
-use yii\httpclient\Client;
 
 class ImportController extends Controller
 {
@@ -24,7 +24,7 @@ class ImportController extends Controller
 	{
 		$fnCount = function($formType) {
 			$collection = new FormCollection($this->response, $formType);
-			return $collection->count;
+			return $collection->count();
 		};
 
 		var_dump([
@@ -38,28 +38,19 @@ class ImportController extends Controller
 
 	public function actionQuick()
 	{
-		$quickes = new FormCollection($this->response, FormType::QUICK_REPORT);
+		$collection = new FormCollection($this->response, FormType::QUICK_REPORT);
 
-		/*$photos = [];
-		foreach ($quickes as $form) {
+		$files = [];
+		foreach ($collection as $form) {
 			if (is_array($form->attachments)) {
-				foreach ($form->attachments as $name => $data) {
-					$photo1 = (new Client)->createRequest()
-						->setUrl($data['url'])
-						->addHeaders(array_merge($this->authHeader, [
-							'content-type' => $data['content_type'],
-						]))
-						->send();
-
-						echo $photo1->content;
-						exit;
-
-					array_push($photos, $photo1);
+				foreach ($form->attachments as $name => $attachment) {
+					$file = new AttachmentDownloader($this->commcare->authHeader, $attachment);
+					array_push($files, $file);
 				}
 			}
-		}*/
+		}
 
-		var_dump($quickes);
+		var_dump($files);
 	}
 
 	public function actionBerita()

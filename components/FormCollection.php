@@ -8,12 +8,12 @@ use app\forms\FormPmAggregate;
 use app\forms\FormPmDetail;
 use app\forms\FormQuickReport;
 use app\forms\FormType;
-use yii\base\Component;
+use yii\base\BaseObject;
 use yii\httpclient\Response;
 
-class FormCollection extends Component
+class FormCollection extends BaseObject implements \IteratorAggregate, \Countable
 {
-	private $data;
+	protected $data;
 
 	public function __construct(Response $response, $formType)
 	{
@@ -23,14 +23,19 @@ class FormCollection extends Component
 		}, $filteredData);
 	}
 
-	public function getForms()
+	public function getIterator()
 	{
-		return $this->data;
+		return new \ArrayIterator($this->data);
 	}
 
-	public function getCount()
+	public function count()
 	{
 		return count($this->data);
+	}
+
+	public function exists()
+	{
+		return !empty($this->data);
 	}
 
 	protected function createForm($formType, $row)
