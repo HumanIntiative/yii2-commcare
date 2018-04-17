@@ -10,14 +10,21 @@ use yii\console\Controller;
 
 class ImportController extends Controller
 {
-	private $commcare;
-	private $response;
+	public $commcare;
+	public $response;
 
 	public function init()
 	{
 		parent::init();
 		$this->commcare = new CommcareConnection('form');
 		$this->response = $this->commcare->response;
+	}
+
+	public function actions()
+	{
+		return [
+			'quick'=>actions\QuickReportAction::className(),
+		];
 	}
 
 	public function actionCount()
@@ -34,23 +41,6 @@ class ImportController extends Controller
 			['type'=>'PMD', 'total'=>$fnCount(FormType::PM_DETAIL)],
 			['type'=>'PMA', 'total'=>$fnCount(FormType::PM_AGGREGATE)],
 		]);
-	}
-
-	public function actionQuick()
-	{
-		$collection = new FormCollection($this->response, FormType::QUICK_REPORT);
-
-		$files = [];
-		foreach ($collection as $form) {
-			if (is_array($form->attachments)) {
-				foreach ($form->attachments as $name => $attachment) {
-					$file = new AttachmentDownloader($this->commcare->authHeader, $attachment);
-					array_push($files, $file);
-				}
-			}
-		}
-
-		var_dump($files);
 	}
 
 	public function actionBerita()

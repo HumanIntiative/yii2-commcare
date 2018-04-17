@@ -2,11 +2,11 @@
 	"name": "pkpudev/commcare",
 	"description": "Pkpudev Commcare Api",
 	"authors": [
-    {
-      "name": "Zein Miftah",
-      "email": "zeinmiftah@gmail.com"
-    }
-  ],
+		{
+			"name": "Zein Miftah",
+			"email": "zeinmiftah@gmail.com"
+		}
+	],
 	"require": {
 		"pkpudev/yii2-fasil": "*",
 		"vlucas/phpdotenv": "2.*",
