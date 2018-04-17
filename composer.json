@@ -1,0 +1,44 @@
+{
+	"name": "pkpudev/commcare",
+	"description": "Pkpudev Commcare Api",
+	"authors": [
+    {
+      "name": "Zein Miftah",
+      "email": "zeinmiftah@gmail.com"
+    }
+  ],
+	"require": {
+		"pkpudev/yii2-fasil": "*",
+		"vlucas/phpdotenv": "2.*",
+		"yiisoft/yii2": "~2.0.13.1",
+		"yiisoft/yii2-httpclient": "*"
+	},
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "git@bitbucket.org:pkpudev/yii2-fasil.git"
+		},
+		{
+			"type": "composer",
+			"url": "https://asset-packagist.org"
+		}
+	],
+	"config": {
+		"secure-http": false	
+	},
+	"extra": {
+		"asset-installer-paths": {
+			"npm-asset-library": "vendor/npm",
+			"bower-asset-library": "vendor/bower"
+		},
+		"asset-vcs-driver-options": {
+			"github-no-api": true
+		},
+		"asset-pattern-skip-version": "(-build|-patch)"
+	},
+	"autoload": {
+			"psr-4": {
+					"app\\": ""
+			}
+	}
+}

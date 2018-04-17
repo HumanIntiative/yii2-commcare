@@ -1,0 +1,5 @@
+/.phpintel
+/runtime
+/vendor
+.env
+composer.lock
