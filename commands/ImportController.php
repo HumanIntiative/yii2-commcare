@@ -26,6 +26,7 @@ class ImportController extends Controller
 			'quick'=>actions\QuickReportAction::className(),
 			'berita'=>actions\BeritaAction::className(),
 			'cerita'=>actions\CeritaAction::className(),
+			'pm-detail'=>actions\PmDetailAction::className(),
 		];
 	}
 
@@ -43,12 +44,6 @@ class ImportController extends Controller
 			['type'=>'PMD', 'total'=>$fnCount(FormType::PM_DETAIL)],
 			['type'=>'PMA', 'total'=>$fnCount(FormType::PM_AGGREGATE)],
 		]);
-	}
-
-	public function actionPmDetail()
-	{
-		$details = new FormCollection($this->response, FormType::PM_DETAIL);
-		var_dump($details);
 	}
 
 	public function actionPmAggregate()

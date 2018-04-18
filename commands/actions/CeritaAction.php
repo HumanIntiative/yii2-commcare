@@ -25,9 +25,9 @@ class CeritaAction extends Action
 	public function createModel(FormCeritaHumanis $form)
 	{
 		// Check QR by app_id
-		// Check PMP
 		$param = ['commcare_app_id'=>$form->id];
 		$model = Story::find()->where($param)->one();
+		// Check PMP
 		$projectId = $this->findProjectId($form->pmp);
 		if (null === $model && $projectId) {
 			$model = new Story;
