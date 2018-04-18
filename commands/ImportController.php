@@ -2,7 +2,7 @@
 
 namespace app\commands;
 
-use app\components\AttachmentDownloader;
+use app\components\AttachmentCollection;
 use app\components\CommcareConnection;
 use app\components\FormCollection;
 use app\forms\FormType;
@@ -50,5 +50,11 @@ class ImportController extends Controller
 	{
 		$aggregates = new FormCollection($this->response, FormType::PM_AGGREGATE);
 		var_dump($aggregates);
+	}
+
+	public function actionAttachment()
+	{
+		$attachments = new AttachmentCollection($this->response);
+		var_dump($attachments);
 	}
 }

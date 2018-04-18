@@ -8,10 +8,9 @@ use app\forms\FormPmAggregate;
 use app\forms\FormPmDetail;
 use app\forms\FormQuickReport;
 use app\forms\FormType;
-use yii\base\BaseObject;
 use yii\httpclient\Response;
 
-class FormCollection extends BaseObject implements \IteratorAggregate, \Countable
+class FormCollection implements \IteratorAggregate, \Countable
 {
 	protected $data;
 
