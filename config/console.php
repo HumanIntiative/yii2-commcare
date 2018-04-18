@@ -29,6 +29,18 @@ return [
 			'password' => getenv('DB_PASS'),
 			'charset' => 'utf8',
 		],
+		'log' => [
+			'traceLevel' => 3, //0
+			'targets' => [
+				[
+					'class' => 'yii\log\FileTarget',
+					'levels' => ['error', 'warning'],
+					'categories' => [
+						'yii\db\*',
+					],
+				],
+			],
+		],
 		'mongodb' => [
 			'class' => 'yii\mongodb\Connection',
 			'dsn' => $mongodsn,
