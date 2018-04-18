@@ -25,6 +25,7 @@ class ImportController extends Controller
 		return [
 			'quick'=>actions\QuickReportAction::className(),
 			'berita'=>actions\BeritaAction::className(),
+			'cerita'=>actions\CeritaAction::className(),
 		];
 	}
 
@@ -42,12 +43,6 @@ class ImportController extends Controller
 			['type'=>'PMD', 'total'=>$fnCount(FormType::PM_DETAIL)],
 			['type'=>'PMA', 'total'=>$fnCount(FormType::PM_AGGREGATE)],
 		]);
-	}
-
-	public function actionCerita()
-	{
-		$ceritas = new FormCollection($this->response, FormType::CERITA_HUMANIS);
-		var_dump($ceritas);
 	}
 
 	public function actionPmDetail()
