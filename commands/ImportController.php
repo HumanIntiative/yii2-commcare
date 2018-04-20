@@ -27,6 +27,7 @@ class ImportController extends Controller
 			'berita'=>actions\BeritaAction::className(),
 			'cerita'=>actions\CeritaAction::className(),
 			'pm-detail'=>actions\PmDetailAction::className(),
+			'attachment'=>actions\AttachmentAction::className(),
 		];
 	}
 
@@ -50,11 +51,5 @@ class ImportController extends Controller
 	{
 		$aggregates = new FormCollection($this->response, FormType::PM_AGGREGATE);
 		var_dump($aggregates);
-	}
-
-	public function actionAttachment()
-	{
-		$attachments = new AttachmentCollection($this->response);
-		var_dump($attachments);
 	}
 }

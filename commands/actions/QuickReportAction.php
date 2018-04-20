@@ -2,7 +2,6 @@
 
 namespace app\commands\actions;
 
-use app\components\AttachmentDownloader;
 use app\components\FormCollection;
 use app\forms\FormQuickReport;
 use app\forms\FormType;

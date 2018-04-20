@@ -7,13 +7,18 @@ use yii\httpclient\Response;
 
 class AttachmentCollection implements \IteratorAggregate, \Countable
 {
-	use GeneratorTrait;
+	use CollectionTrait, GeneratorTrait;
 
+	protected $response;
+	protected $formType;
 	protected $data = [];
 
-	public function __construct(Response $response)
+	public function __construct(Response $response, $formType=null)
 	{
-		$objects = $response->data['objects'];
+		$this->response = $response;
+		$this->formType = $formType;
+
+		$objects = $this->mapData();
 		foreach ($objects as $object) {
 			$rowId = $object['id'];
 			$attachments = $object['attachments'];
@@ -24,18 +29,12 @@ class AttachmentCollection implements \IteratorAggregate, \Countable
 		}
 	}
 
-	public function getIterator()
+	protected function mapData()
 	{
-		return new \ArrayIterator($this->data);
-	}
-
-	public function count()
-	{
-		return count($this->data);
-	}
-
-	public function exists()
-	{
-		return !empty($this->data);
+		if (null === $this->formType) {
+			return $this->response->data['objects'];
+		} else {
+			return $this->filterData($this->response, $this->formType);
+		}
 	}
 }
