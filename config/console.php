@@ -46,6 +46,13 @@ return [
 			'dsn' => $mongodsn,
 		],
 		'request' => null,
+		'sftp' => [
+			'class' => 'creocoder\flysystem\SftpFilesystem',
+			'host' => getenv('SFTP_HOST'),
+			'username' => getenv('SFTP_USER'),
+			'password' => getenv('SFTP_PASS'),
+			'root' => getenv('SFTP_ROOT'),
+		],
 	],
 	'aliases' => [],
 ];

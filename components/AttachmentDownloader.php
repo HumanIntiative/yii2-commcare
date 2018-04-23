@@ -5,6 +5,7 @@ namespace app\components;
 use app\forms\Attachment;
 use yii\base\InvalidConfigException;
 use yii\httpclient\Client;
+use yii\httpclient\Response;
 
 class AttachmentDownloader
 {
@@ -25,17 +26,19 @@ class AttachmentDownloader
 		$this->authHeader = $authHeader;
 	}
 
-	public function download()
+	/**
+	 * @return Response
+	 */
+	public function getResponse()
 	{
 		$headers = array_merge($this->authHeader, [
 			'content-type' => $this->attachment->content_type,
 		]);
 
-		$download = (new Client)->createRequest()
+		return (new Client)
+			->createRequest()
 			->setUrl($this->attachment->url)
 			->addHeaders($headers)
 			->send();
-
-		return $download->content;
 	}
 }

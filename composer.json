@@ -8,6 +8,7 @@
 		}
 	],
 	"require": {
+		"creocoder/yii2-flysystem": "~0.9",
 		"pkpudev/yii2-fasil": "*",
 		"vlucas/phpdotenv": "2.*",
 		"yiisoft/yii2": "~2.0.13.1",
