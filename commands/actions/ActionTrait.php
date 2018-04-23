@@ -18,13 +18,6 @@ trait ActionTrait
 			if ($model) {
 				array_push($models, $model);
 			}
-
-			/*if (is_array($form->attachments)) {
-				foreach ($form->attachments as $name => $attachment) {
-					$file = new AttachmentDownloader($this->controller->commcare->authHeader, $attachment);
-					array_push($files, $file);
-				}
-			}*/
 		}
 		echo '--- Finish generating data : '.$count."\r\n";
 

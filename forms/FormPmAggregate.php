@@ -34,13 +34,12 @@ class FormPmAggregate extends BaseObject
 	public static function create($result=[])
 	{
 		$fields = [
-			'pmp','jml_orang_tua','jml_dewasa','jml_remaja',
+			'pmp','jml_orang_tua','jml_dewasa','jml_remaja', 'jml_anak_anak',
 			'jml_balita','jml_ibu_hamil','jml_ibu_menyusui',
 			'jml_difabel','jml_fakir_miskin','jml_muallaf','jml_riqab',
 			'jml_gharim','jml_fiisabilillah','jml_ibnu_sabil'
 		];
 		$form = static::generate($fields, $result);
-		$form->jml_anak_anak = $result['form']['jml_anak-anak'];
 		return $form;
 	}
 }

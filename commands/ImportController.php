@@ -2,7 +2,6 @@
 
 namespace app\commands;
 
-use app\components\AttachmentCollection;
 use app\components\CommcareConnection;
 use app\components\FormCollection;
 use app\forms\FormType;
@@ -27,6 +26,7 @@ class ImportController extends Controller
 			'berita'=>actions\BeritaAction::className(),
 			'cerita'=>actions\CeritaAction::className(),
 			'pm-detail'=>actions\PmDetailAction::className(),
+			'pm-aggregate'=>actions\PmAggregateAction::className(),
 			'attachment'=>actions\AttachmentAction::className(),
 		];
 	}
@@ -45,11 +45,5 @@ class ImportController extends Controller
 			['type'=>'PMD', 'total'=>$fnCount(FormType::PM_DETAIL)],
 			['type'=>'PMA', 'total'=>$fnCount(FormType::PM_AGGREGATE)],
 		]);
-	}
-
-	public function actionPmAggregate()
-	{
-		$aggregates = new FormCollection($this->response, FormType::PM_AGGREGATE);
-		var_dump($aggregates);
 	}
 }
