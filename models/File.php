@@ -26,7 +26,7 @@ class File extends BaseFile
 		if (!parent::beforeSave($insert)) return false;
 		if (!$this->isNewRecord) return true;
 
-		$this->created_by = Yii::$app->user->id;
+		$this->created_by = null;
 		$this->created_stamp = new \yii\db\Expression('NOW()');
 
 		return true;

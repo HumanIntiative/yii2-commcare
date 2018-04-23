@@ -8,27 +8,31 @@ use yii\httpclient\Response;
 class Config
 {
 	/**
-	 * @var ActiveRecordInterface $model
+	 * @var string $activityType QuickReport etc
 	 */
-	public $model;
+	public $activityType;
 	/**
 	 * @var Attachment $model
 	 */
 	public $attachment;
 	/**
-	 * @var Response $response
+	 * @var SftpFilesystem $fileSystem
 	 */
-	public $response;
+	public $fileSystem;
+	/**
+	 * @var ActiveRecordInterface $model
+	 */
+	public $model;
 	/**
 	 * @var string $prefix
 	 */
 	public $prefix;
 	/**
+	 * @var Response $response
+	 */
+	public $response;
+	/**
 	 * @var string $targetDir
 	 */
-	public $targetDir;
-	/**
-	 * @var SftpFilesystem $fileSystem
-	 */
-	public $fileSystem;
+	public $targetDir = 'fasil_attachment';
 }

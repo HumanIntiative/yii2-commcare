@@ -5,7 +5,7 @@ namespace app\commands\actions;
 use app\components\FormCollection;
 use app\forms\FormQuickReport;
 use app\forms\FormType;
-use app\models\QuickReport;
+use pkpudev\fasil\models\QuickReport;
 use yii\base\Action;
 
 class QuickReportAction extends Action

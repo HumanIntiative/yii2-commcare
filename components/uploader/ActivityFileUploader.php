@@ -6,8 +6,6 @@ use app\components\GlobalHelper;
 use app\models\File;
 use pkpudev\fasil\models\ActivityFile;
 use yii\base\BaseObject;
-use yii\base\InvalidConfigException;
-use yii\db\ActiveRecordInterface;
 use yii\db\Exception;
 use yii\web\ServerErrorHttpException;
 
@@ -21,8 +19,7 @@ class ActivityFileUploader extends BaseObject
 	/**
 	 * Construct
 	 * 
-	 * @param ActiveRecordInterface $model
-	 * @param Response $response
+	 * @param Config $config
 	 */
 	public function __construct(Config $config)
 	{
@@ -34,15 +31,19 @@ class ActivityFileUploader extends BaseObject
 	 */
 	public function upload()
 	{
-		// Process Upload
+		$activityType = $this->config->activityType;
+		$attachment = $this->config->attachment;
 		$content = $this->config->response->content;
+		$fileSystem = $this->config->fileSystem;
 		$targetDir = $this->config->targetDir;
-		$filename = sprintf("%s_%s", $this->config->prefix, $this->config->attachment->filename);
+		$prefix = $this->config->prefix;
+		// Process Upload
+		$filename = sprintf("%s_%s", $prefix, $attachment->filename);
 		$fullpath = sprintf("%s/%s", $targetDir, $filename);
-		$result = $this->config->fileSystem->put($fullpath, $content);
+		$result = $fileSystem->put($fullpath, $content);
 
-		if ($retval = $this->config->fileSystem->has($fullpath)) {
-			$retval = $this->saveFile($uploaded, $filename, $targetDir, $this->config->type);
+		if ($retval = $fileSystem->has($fullpath)) {
+			$retval = $this->saveFile($targetDir, $filename, $activityType);
 		} else {
 			throw new ServerErrorHttpException("Gagal menyimpan file", 500);
 		}
@@ -53,29 +54,30 @@ class ActivityFileUploader extends BaseObject
 	/**
 	 * @inheritdoc
 	 */
-	public function saveFile($uploaded, $filename, $targetDir, $desc=null)
+	public function saveFile($targetDir, $filename, $activityType)
 	{
-		$modelName = GlobalHelper::shortClassname($this->config->model);
-		$isImage = GlobalHelper::isImageFile($uploaded->type);
+		$attachment = $this->config->attachment;
+		$model = $this->config->model;
+		$modelName = GlobalHelper::shortClassname($model);
+		$isImage = GlobalHelper::isImageFile($attachment->content_type);
 
 		$file = new File;
-		$file->file_name     = $uploaded->name;
-		$file->ext           = $uploaded->extension;
+		$file->file_name     = $attachment->filename;
+		$file->ext           = $attachment->ext;
 		$file->location      = "$targetDir/$filename";
-		$file->mime_type     = $uploaded->type;
-		$file->byte_size     = $uploaded->size;
-		$file->metadata      = json_encode(['error'=>$uploaded->error]);
+		$file->mime_type     = $attachment->content_type;
+		$file->byte_size     = $attachment->length;
 		$file->created_stamp = date('Y-m-d H:i:s');
 		$file->created_by    = null;
 
 		if ($file->save()) {
 			$modelFile = new ActivityFile;
-			$modelFile->project_id = $this->config->model->project_id;
-			$modelFile->activity_table = $modelName;
-			$modelFile->activity_id = $this->config->model->_id;
-			$modelFile->file_id = $file->id;
-			$modelFile->file_type = $desc;
-			$modelFile->is_image = $isImage;
+			$modelFile->project_id      = $model->project_id;
+			$modelFile->activity_table  = $modelName;
+			$modelFile->activity_id     = $model->_id;
+			$modelFile->file_id         = $file->id;
+			$modelFile->file_type       = $activityType;
+			$modelFile->is_image        = $isImage;
 			if ($modelFile->save()) {
 				return true;
 			} else {
