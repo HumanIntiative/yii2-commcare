@@ -19,7 +19,7 @@ trait ActionTrait
 				array_push($models, $model);
 			}
 		}
-		echo '--- Finish generating data : '.$count."\r\n";
+		echo '--- Finish generating data : '.count($models)."\r\n";
 
 		return $models;
 	}

@@ -21,10 +21,11 @@ class AttachmentCollection implements \IteratorAggregate, \Countable
 		$objects = $this->mapData();
 		foreach ($objects as $object) {
 			$rowId = $object['id'];
+			$pmp = $object['form']['pmp'];
 			$attachments = $object['attachments'];
 			$this->data = array_merge(
 				$this->data,
-				static::mapAttachments($rowId, $attachments)
+				static::mapAttachments($rowId, $pmp, $attachments)
 			);
 		}
 	}
