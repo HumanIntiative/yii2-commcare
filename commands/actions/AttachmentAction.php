@@ -24,11 +24,12 @@ class AttachmentAction extends Action
 	private $authHeader;
 	private $response;
 
-	public function init()
+	public function beforeRun()
 	{
-		parent::init();
 		$this->authHeader = $this->controller->commcare->authHeader;
 		$this->response = $this->controller->response;
+
+		return parent::beforeRun();
 	}
 
 	public function run()

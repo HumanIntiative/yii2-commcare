@@ -18,8 +18,10 @@ class CommcareConnection extends Component
 	private $headers;
 	private $client;
 	private $sourceUrl;
+	private $start_date;
+	private $end_date;
 
-	public function __construct($sourceUrl=null)
+	public function __construct($sourceUrl=null, $start=null, $end=null)
 	{
 		$server = getenv('COM_SERVER');
 		$apiUrl = sprintf('/a/%s/api/%s', getenv('COM_DOMAIN'), getenv('COM_APIVER'));
@@ -28,6 +30,8 @@ class CommcareConnection extends Component
 		$this->client = new Client(['baseUrl'=>$server.$apiUrl]);
 		$this->headers = ['Authorization'=>$authorization];
 		$this->sourceUrl = $sourceUrl ?: self::FORM_URL;
+		$this->start_date = $start;
+		$this->end_date = $end;
 	}
 
 	/**
@@ -35,11 +39,19 @@ class CommcareConnection extends Component
 	 */
 	public function getRequest()
 	{
+		$params = ['app_id'=>self::APP_ID,'limit'=>100];
+		if (isset($this->start_date)) {
+			$params = array_merge($params, ['received_on_start'=>$this->start_date]);
+		}
+		if (isset($this->end_date)) {
+			$params = array_merge($params, ['received_on_end'=>$this->end_date]);
+		}
+
 		return $this->client
 			->createRequest()
 			->setHeaders($this->headers)
 			->setMethod('GET')
-			->setData(['app_id'=>self::APP_ID,'limit'=>100])
+			->setData($params)
 			->setUrl($this->sourceUrl);
 	}
 

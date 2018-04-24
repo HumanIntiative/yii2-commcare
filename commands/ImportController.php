@@ -5,18 +5,18 @@ namespace app\commands;
 use app\components\CommcareConnection;
 use app\components\FormCollection;
 use app\forms\FormType;
-use yii\console\Controller;
 
 class ImportController extends Controller
 {
 	public $commcare;
 	public $response;
 
-	public function init()
+	public function beforeAction($action)
 	{
-		parent::init();
-		$this->commcare = new CommcareConnection('form');
+		$this->commcare = new CommcareConnection('form', $this->start, $this->end);
 		$this->response = $this->commcare->response;
+
+		return parent::beforeAction($action);
 	}
 
 	public function actions()
